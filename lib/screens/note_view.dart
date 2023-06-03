@@ -84,9 +84,9 @@ class _NoteViewState extends State<NoteView> {
                             itemBuilder: (context, index) {
                               return Center(
                                   child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 6, vertical: 2),
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 5, vertical: 4),
                                 decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.8),
@@ -106,20 +106,16 @@ class _NoteViewState extends State<NoteView> {
                     children: [
                       TextButton(
                           onPressed: () {
-                            setState(() {
-                              fontSize++;
-                            });
+                            provider.incrementNoteTextSize();
                           },
-                          child: Text(
+                          child: const Text(
                             'A',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w700),
                           )),
                       TextButton(
                           onPressed: () {
-                            setState(() {
-                              fontSize--;
-                            });
+                            provider.decrementNoteTextSize();
                           },
                           child: Text(
                             'A',

@@ -16,62 +16,66 @@ class FormatNoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Note Format',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+    return ChangeNotifierProvider.value(
+        value: provider,
+        builder: (context, snapshot) {
+          return Material(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            child: Column(children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Note Format',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.grey.withOpacity(.5),
+                          padding: EdgeInsets.all(4),
+                        ),
+                        constraints: BoxConstraints(),
+                        onPressed: onClose,
+                        icon: Icon(
+                          Icons.close_outlined,
+                        ))
+                  ],
+                ),
               ),
-              IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(.5),
-                    padding: EdgeInsets.all(4),
-                  ),
-                  constraints: BoxConstraints(),
-                  onPressed: onClose,
-                  icon: Icon(
-                    Icons.close_outlined,
-                  ))
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 15),
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 60),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: fonts.length,
-                itemBuilder: (context, index) {
-                  return FontSelect(font: fonts[index]);
-                },
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ColorWheel(color: Colors.black),
-              ColorWheel(color: Colors.white),
-              ColorWheel(color: Colors.blue),
-              ColorWheel(color: Colors.red),
-              ColorWheel(color: Colors.green),
-              ColorWheel(color: Colors.yellow),
-            ],
-          ),
-        )
-      ]),
-    );
+              ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 80),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: fonts.length,
+                    itemBuilder: (context, index) {
+                      return FontSelect(font: fonts[index]);
+                    },
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ColorWheel(color: Colors.black),
+                    ColorWheel(color: Colors.white),
+                    ColorWheel(color: Colors.blue),
+                    ColorWheel(color: Colors.red),
+                    ColorWheel(color: Colors.green),
+                    ColorWheel(color: Colors.yellow),
+                  ],
+                ),
+              )
+            ]),
+          );
+        });
   }
 }
 
@@ -96,8 +100,10 @@ class FontSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NoteProvider>(builder: (context, value, _) {
-      return TextButton(
+    NoteProvider value = context.watch<NoteProvider>();
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, bottom: 10),
+      child: TextButton(
           onPressed: () {
             value.changeNoteTextFont(font);
           },
@@ -105,7 +111,7 @@ class FontSelect extends StatelessWidget {
               ? TextButton.styleFrom(
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(10)),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10))
               : null,
@@ -118,7 +124,7 @@ class FontSelect extends StatelessWidget {
                   color:
                       value.noteTextFont == font ? Colors.white : Colors.black),
             ),
-          ));
-    });
+          )),
+    );
   }
 }
